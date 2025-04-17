@@ -14,7 +14,6 @@ const noteSchema = new mongoose.Schema({
   owner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'user',
-    default: []
   },
   createdAt: {
     type: Date,
