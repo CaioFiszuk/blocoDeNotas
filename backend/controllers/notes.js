@@ -48,9 +48,9 @@ module.exports.deleteNote = (req, res) => {
 };
 
 module.exports.updateNote = (req, res) => {
-
+   console.log(req.params);
   Note.findByIdAndUpdate(
-    req.params.id,
+    req.params.noteId,
     {
       title: req.body.title,
       content: req.body.content,
@@ -58,7 +58,6 @@ module.exports.updateNote = (req, res) => {
     {
       new: true,
       runValidators: true,
-      upsert: true
     }
   )
   .then(note => res.send({ data: note }))
