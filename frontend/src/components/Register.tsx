@@ -33,7 +33,7 @@ function Register({handleRegistration}: RegisterProps) {
   };
 
     return (
-      <div className="form__page">
+    <div className="form__page">
       <form onSubmit={handleSubmit} className="form"  autoComplete="off">
         <legend className="form__title">Cadastre-se</legend>
 
