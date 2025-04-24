@@ -1,9 +1,24 @@
+interface Note {
+  _id: string;
+  title: string;
+  content: string;
+}
 
-function Main() {
+interface mainProps {
+  notes: Array<Note>;
+}
+
+function Main({notes}: mainProps) {
 
     return (
       <main>
-        <h1>Main page</h1>
+        <ul>
+          {
+            notes.map((note)=>(
+              <li>{note.title}</li>
+            ))
+          }
+        </ul> 
       </main>
     )
   }
