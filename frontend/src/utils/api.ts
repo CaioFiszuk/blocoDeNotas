@@ -11,6 +11,11 @@ interface ApiOptions {
     title: string;
     content: string;
   }
+  
+  interface NoteData {
+    title: string;
+    content: string;
+  }
 
 class Api {
     private _baseURL: string;
@@ -36,6 +41,26 @@ class Api {
           .catch((error) => {
             return Promise.reject(`Error: ${error.response ? error.response.status : error.message}`);
           });
+    }
+
+    public createNote(noteData: NoteData): Promise<Note> {
+      const { title, content } = noteData;
+
+      if (!title || !content) {
+        return Promise.reject("Todos os campos são obrigatórios.");
+      }
+
+       return axios.post(`${this._baseURL}/notes`, noteData, { headers: this.getAuthorizationHeaders() })
+       .then((res) => {
+        return res.data.data;
+      })
+          .catch((error) => {
+
+      const errorMessage = error.response 
+        ? `Error: ${error.response.status} - ${error.response.data.message || error.message}` 
+        : `Network error: ${error.message}`;
+      return Promise.reject(errorMessage);
+    });
     }
 
 }

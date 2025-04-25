@@ -8,7 +8,6 @@ import Login from './Login';
 import Register from './Register';
 import * as auth from '../utils/auth';
 import * as token from '../utils/token';
-import { api } from '../utils/api';
 
 interface handleRegistrationProps {
   email: string,
@@ -20,15 +19,7 @@ interface handleLoginProps {
   password: string
 }
 
-interface Note {
-  _id: string;
-  title: string;
-  content: string;
-}
-
 function App() {
-  const [notes, setNotes] = useState<Note[]>([]);
-
   const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("isLoggedIn") === "true");
 
   const navigate = useNavigate();
@@ -67,14 +58,6 @@ function App() {
       });
   }
 
-  const getAllNotes = async () => {
-    await api.getNotes()
-    .then((data)=>{
-     setNotes(data);
-    })
-    .catch((error) => console.error("Erro ao buscar as notas:", error));
-  }
-
   const signOut = () => {
     token.removeToken();
     localStorage.removeItem("isLoggedIn");
@@ -96,8 +79,6 @@ function App() {
           localStorage.removeItem("isLoggedIn");
         });
     }
-
-    getAllNotes();
   }, []);  
 
   return (
@@ -108,7 +89,7 @@ function App() {
           element={
             <ProtectedRoute isLoggedIn={isLoggedIn}>
                <Header handleSignOut={signOut}/>
-               <Main notes={notes}/>
+               <Main/>
             </ProtectedRoute>
           }
         />
