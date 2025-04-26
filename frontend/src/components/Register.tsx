@@ -41,7 +41,7 @@ function Register({handleRegistration}: RegisterProps) {
           type="email"
           name="email"
           placeholder="E-mail"
-          //className="form__input"
+          className="form__input sign-input"
           value={data.email}
           onChange={handleChange}
         />
@@ -50,18 +50,18 @@ function Register({handleRegistration}: RegisterProps) {
           type="password"
           name="password"
           placeholder="Senha"
-          //className="form__input"
+          className="form__input sign-input"
           value={data.password}
           onChange={handleChange}
         />
 
-        <button className="form__button" type="submit">
+        <button className="form__sign-button" type="submit">
           Cadastrar
         </button>
 
         <span className="form__info">
           Já é um membro? Faça o login{" "}
-          <Link to="/signin">
+          <Link to="/signin" className="link">
             aqui
           </Link>
         </span>

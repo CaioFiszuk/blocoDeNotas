@@ -1,0 +1,41 @@
+.main__add-button {
+    background-color: cyan;
+    color: black;
+    border: none;
+    border-radius: 50px;
+    padding: 10px 20px;
+    font-size: 30px;
+    margin-left: 20px;
+    cursor: pointer;
+}
+
+.main__add-button:hover {
+    background-color: rgb(19, 179, 179);
+}
+
+.main__notes-section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    list-style: none;
+    margin: 30px 20px 0 20px;
+    padding-left: 50px;
+}
+
+.main__notes-section__element {
+   background-color: #565656;
+   width: 150px;
+   height: 150px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   cursor: pointer;
+}
+
+.main__notes-section__element:hover {
+    background-color: #8a8989;
+}
+
+.main__notes-section__content {
+    text-align: center;
+}

@@ -55,12 +55,12 @@ function Main() {
     return (
       <main>
 
-        <button onClick={openCreateModal}>+</button>
+        <button className="main__add-button" onClick={openCreateModal}>+</button>
 
-        <ul>
+        <ul className="main__notes-section">
           {
             notes.map((note)=>(
-              <li key={note._id}>{note.title}</li>
+              <li className="main__notes-section__element" key={note._id}><p className="main__notes-section__content">{note.title}</p></li>
             ))
           }
         </ul> 

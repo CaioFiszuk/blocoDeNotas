@@ -22,12 +22,12 @@ function CreateForm({submission}: CreateFormProps) {
   };
 
     return (
-      <form onSubmit={handleSubmit}>
-         <input type="text" name="title" placeholder="Title" required/>
+      <form className="form-create" onSubmit={handleSubmit}>
+         <input className="form__input" type="text" name="title" placeholder="Title" required/>
 
-         <textarea name="content" required></textarea>
+         <textarea className="form__textarea" name="content" required></textarea>
 
-         <button type='submit'>+</button>
+         <button className="form__create-button" type='submit'>+</button>
       </form>
     )
 }

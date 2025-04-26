@@ -42,7 +42,7 @@ function Login({handleLogin}:loginProps) {
             type='email' 
             name='email'
             placeholder='E-mail'
-            //className="form__input" 
+            className="form__input sign-input" 
             value={data.email}
             onChange={handleChange}
           />
@@ -51,12 +51,12 @@ function Login({handleLogin}:loginProps) {
             type='password' 
             name='password'
             placeholder='Senha' 
-            //className="form__input" 
+            className="form__input sign-input" 
             value={data.password}
             onChange={handleChange}
           />
 
-          <button className="form__button" type="submit">Entrar</button>
+          <button className="form__sign-button" type="submit">Entrar</button>
 
           <span className="form__info">Ainda não é membro? Inscreva-se <Link to='/signup' className='link'>aqui!</Link></span>
        </form>
