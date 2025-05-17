@@ -6,13 +6,22 @@ import Popup from '../components/Popup';
 
 function Main() {
   const [notes, setNotes] = useState([]);
+  const [selectedNote, setSelectedNote] = useState(null);
   const [createNoteModal, setCreateNoteModal] = useState(false);
+  const [fullNoteModal, setFullNoteModal] = useState(false);
   const  currentUser = useContext(currentUserContext);
-
-  console.log("ele esta aqui: ", currentUser);
 
   const openCreateModal = () => {
     setCreateNoteModal(true);
+  }
+
+  const openFullNoteModal = (note) => {
+    setSelectedNote(note);
+    setFullNoteModal(true);
+  }
+
+  const closeFullNoteModal = () => {
+    setFullNoteModal(false);
   }
 
   const closeCreateModal = () => {
@@ -57,7 +66,8 @@ function Main() {
           {
             notes.map((note)=>(
               <li 
-                className="main__notes-section__element" 
+                className="main__notes-section__element"
+                onClick={() => openFullNoteModal(note)} 
                 key={note._id}>
                 <p className="main__notes-section__content">
                   {note.title}
@@ -69,6 +79,17 @@ function Main() {
 
         <Popup isOpen={createNoteModal} onClose={closeCreateModal}>
            <CreateForm submission={handleCreateNote}/>
+        </Popup>
+
+        <Popup isOpen={fullNoteModal} onClose={closeFullNoteModal}>
+          {selectedNote ? (
+             <>
+              <h1 className="popup__title">{selectedNote.title}</h1>
+              <p className="popup__written-content">{selectedNote.content}</p>
+             </>
+          ) : (
+             <p className="popup__written-content">Carregando...</p>
+          )}
         </Popup>
       </main>
     )
