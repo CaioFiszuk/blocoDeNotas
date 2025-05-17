@@ -8,9 +8,11 @@ import Login from '../components/Login';
 import ProtectedRoute from '../components/ProtectedRoute';
 import * as auth from '../utils/auth';
 import * as token from '../utils/token';
+import { currentUserContext } from '../contexts/CurrentUserContext';
 
 function App() {
 
+const [currentUser, setCurrentUser] = useState(null);
 const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("isLoggedIn") === "true");
 const navigate = useNavigate();
 
@@ -37,7 +39,8 @@ const navigate = useNavigate();
           localStorage.setItem("isLoggedIn", "true");
 
           auth.getUserInfo(data.token)
-          .then(() => {
+          .then((data) => {
+            setCurrentUser(data);
             setIsLoggedIn(true);
             navigate("/");
           });
@@ -59,7 +62,8 @@ const navigate = useNavigate();
     const jwt = token.getToken();
     if (jwt) {
       auth.getUserInfo(jwt)
-        .then(() => {
+        .then((data) => {
+          setCurrentUser(data)
           setIsLoggedIn(true);
           localStorage.setItem("isLoggedIn", "true");
         })
@@ -73,6 +77,7 @@ const navigate = useNavigate();
 
   return (
     <div>
+      <currentUserContext.Provider value={currentUser}>
        <Routes>
          <Route 
            path='/'
@@ -113,6 +118,7 @@ const navigate = useNavigate();
             }
           />
        </Routes>
+      </currentUserContext.Provider>
     </div>
   )
 }
