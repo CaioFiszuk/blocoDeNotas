@@ -28,8 +28,47 @@ const navigate = useNavigate();
       });
   }
 
-  useEffect(()=>{
+    const handleLogin = ({ email, password }) => {
+    auth
+      .authorize(email, password)
+      .then((data) => {
+        if (data.token) {
+          token.setToken(data.token);
+          localStorage.setItem("isLoggedIn", "true");
 
+          auth.getUserInfo(data.token)
+          .then(() => {
+            setIsLoggedIn(true);
+            navigate("/");
+          });
+        }
+      })
+      .catch((error) => {
+        toast.error(error.message.slice(6));
+      });
+  }
+
+  const signOut = () => {
+    token.removeToken();
+    localStorage.removeItem("isLoggedIn");
+    setIsLoggedIn(false);
+    navigate("/signin");
+  }
+
+  useEffect(()=>{
+    const jwt = token.getToken();
+    if (jwt) {
+      auth.getUserInfo(jwt)
+        .then(() => {
+          setIsLoggedIn(true);
+          localStorage.setItem("isLoggedIn", "true");
+        })
+        .catch(() => {
+          setIsLoggedIn(false);
+          token.removeToken();
+          localStorage.removeItem("isLoggedIn");
+        });
+    }
   }, []);
 
   return (
@@ -39,7 +78,7 @@ const navigate = useNavigate();
            path='/'
            element={
             <ProtectedRoute isLoggedIn={isLoggedIn}>
-               <Header/>
+               <Header handleSignOut={signOut}/>
                <Main/>
             </ProtectedRoute>
            }
@@ -58,7 +97,7 @@ const navigate = useNavigate();
            path='/signin'
            element={
             <>
-              <Login />
+              <Login handleLogin={handleLogin}/>
             </>
            }
          />
