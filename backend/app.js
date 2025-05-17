@@ -6,6 +6,7 @@ const notesRoutes = require('./routes/notes');
 const usersRoutes = require('./routes/users');
 
 app.use(cors());
+app.use(express.json());
 
 mongoose.connect("mongodb://localhost:27017/note")
 .then(()=>{

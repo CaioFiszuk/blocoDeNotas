@@ -1,13 +1,17 @@
 const Note = require("../models/note");
 
 module.exports.createNote = (req, res) => {
-  const { title, content, owner } = req.body;
+  const { title, content } = req.body;
 
-  if (!title || !content || !owner) {
+  if (!title || !content) {
     return res.status(400).send({ message: "Invalid Data" });
   }
 
-  Note.create({ title, content, owner })
+  Note.create({
+  title: req.body.title,
+  content: req.body.content,
+  owner: req.user.id 
+  })
     .then((note) => res.send({ data: note }))
     .catch((err) =>
       res.status(500).send({ message: "It was not possible for create a notes" + err })
@@ -19,7 +23,7 @@ module.exports.getNotes = (req, res) => {
   const userId = req.user.id;
 
   Note.find({owner: userId})
-   .then((note) => res.send({ data: note }))
+   .then((notes) => res.send({ data: notes }))
    .catch((err) =>
     res.status(500).send({ message: "Server Error" })
   );
