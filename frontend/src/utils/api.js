@@ -45,6 +45,26 @@ class Api {
     });
     }
 
+    updateNote(id, { title, content }) {
+      if (!id) {
+        return Promise.reject("O ID é obrigatório.");
+      }
+
+      const updatedFields = {};
+
+       if (content !== undefined) updatedFields.content = content;
+       if (title !== undefined) updatedFields.title = title;
+    
+      return axios.patch(`${this._baseURL}/notes/${id}`, updatedFields, { headers: this.getAuthorizationHeaders() })
+        .then((res) => res.data.data)
+        .catch((error) => {
+          const errorMessage = error.response 
+            ? `Error: ${error.response.status} - ${error.response.data.message || error.message}` 
+            : `Network error: ${error.message}`;
+          return Promise.reject(errorMessage);
+        });
+    }
+
 }
 
 const api = new Api({

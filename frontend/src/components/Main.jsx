@@ -7,8 +7,12 @@ import Popup from '../components/Popup';
 function Main() {
   const [notes, setNotes] = useState([]);
   const [selectedNote, setSelectedNote] = useState(null);
+  const [editedTitle, setEditedTitle] = useState("");
+  const [editedContent, setEditedContent] = useState("");
+
   const [createNoteModal, setCreateNoteModal] = useState(false);
   const [fullNoteModal, setFullNoteModal] = useState(false);
+
   const  currentUser = useContext(currentUserContext);
 
   const openCreateModal = () => {
@@ -17,11 +21,33 @@ function Main() {
 
   const openFullNoteModal = (note) => {
     setSelectedNote(note);
+    setEditedTitle(note.title);
+    setEditedContent(note.content);
     setFullNoteModal(true);
   }
 
-  const closeFullNoteModal = () => {
+  const closeFullNoteModal = async () => {
     setFullNoteModal(false);
+
+    if (selectedNote && (editedTitle !== selectedNote.title || editedContent !== selectedNote.content))
+      {
+        const updatedNote = {
+        ...selectedNote,
+        title: editedTitle,
+        content: editedContent,
+        };
+
+        try {
+           const savedNote = await api.updateNote(updatedNote._id, updatedNote);
+      
+           setNotes(prevNotes =>
+             prevNotes.map(note => note._id === savedNote._id ? savedNote : note)
+            );
+          } catch (error) {
+            console.error("Erro ao salvar alterações:", error);
+          }
+     }
+      setSelectedNote(null);
   }
 
   const closeCreateModal = () => {
@@ -84,8 +110,18 @@ function Main() {
         <Popup isOpen={fullNoteModal} onClose={closeFullNoteModal}>
           {selectedNote ? (
              <>
-              <h1 className="popup__title">{selectedNote.title}</h1>
-              <p className="popup__written-content">{selectedNote.content}</p>
+                <input
+                  value={editedTitle}
+                  onChange={(e) => setEditedTitle(e.target.value)}
+                  placeholder="Título"
+                  className="popup__title-input"
+                />
+                <textarea
+                  value={editedContent}
+                  onChange={(e) => setEditedContent(e.target.value)}
+                  placeholder="Conteúdo da nota"
+                  className="popup__content-input"
+                />
              </>
           ) : (
              <p className="popup__written-content">Carregando...</p>

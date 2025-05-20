@@ -12,19 +12,37 @@
   }
   
   .popup__content {
-    background:  #8a8989;
+    background:  #565656;
     padding: 20px;
     border-radius: 10px;
     max-width: 500px;
-    min-height: 300px;
+    min-height: 200px;
     width: 100%;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     position: relative;
+    display: flex;
+    flex-direction: column;
   }
 
-  .popup__title {
-    text-align: center; 
+  .popup__title-input {
     margin-bottom: 20px;
+    background-color: transparent;
+    border: none;
+    color: aliceblue;
+    font-size: 30px;
+    line-height: 35px;
+    place-self: center;
+    outline: none;
+  }
+
+  .popup__content-input {
+    background-color: transparent;
+    border: none;
+    color: aliceblue;
+    font-size: 20px;
+    line-height: 25px;
+    resize: none;
+    outline: none;
   }
 
   .popup__written-content {
