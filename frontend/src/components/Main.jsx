@@ -3,6 +3,7 @@ import { api } from "../utils/api";
 import { currentUserContext } from "../contexts/CurrentUserContext";
 import CreateForm from '../components/CreateForm';
 import Popup from '../components/Popup';
+import { FaTrashCan } from 'react-icons/fa6';
 
 function Main() {
   const [notes, setNotes] = useState([]);
@@ -62,7 +63,7 @@ function Main() {
     .catch((error) => console.error("Erro ao buscar as notas:", error));
   }
 
-    const handleCreateNote = async (data) => {
+  const handleCreateNote = async (data) => {
     try {
       const noteData = {
         ...data,
@@ -78,6 +79,19 @@ function Main() {
       throw error; 
     }
   }
+
+  const handleDeleteNote = async (id) => {
+  try {
+    await api.deleteNote(id);
+    setNotes(notes.filter((v) => v._id !== id));
+    if (selectedNote?._id === id) {
+      setSelectedNote(null);
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 
   useEffect(()=>{
     getAllNotes();
@@ -95,6 +109,13 @@ function Main() {
                 className="main__notes-section__element"
                 onClick={() => openFullNoteModal(note)} 
                 key={note._id}>
+                <FaTrashCan 
+                  onClick={(e) => {
+                  e.stopPropagation();
+                  handleDeleteNote(note._id);
+                  }}
+                  className="delete-icon"
+                />
                 <p className="main__notes-section__content">
                   {note.title}
                 </p>

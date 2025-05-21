@@ -45,6 +45,15 @@ class Api {
     });
     }
 
+      async deleteNote(id) {
+      try {
+        const res = await axios.delete(`${this._baseURL}/notes/${id}`, { headers: this.getAuthorizationHeaders() });
+        return res.data;
+      } catch (error) {
+        throw new Error(`Error: ${error.response ? error.response.status : error.message}`);
+      }
+    }
+
     updateNote(id, { title, content }) {
       if (!id) {
         return Promise.reject("O ID é obrigatório.");

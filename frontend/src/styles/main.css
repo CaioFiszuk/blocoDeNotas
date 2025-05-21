@@ -30,6 +30,13 @@
    justify-content: center;
    align-items: center;
    cursor: pointer;
+   position: relative;
+}
+
+.delete-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
 }
 
 .main__notes-section__element:hover {
